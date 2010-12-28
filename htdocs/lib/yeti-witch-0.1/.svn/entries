@@ -1,80 +1,0 @@
-8
-
-dir
-19
-https://yeti-witch.googlecode.com/svn/trunk
-https://yeti-witch.googlecode.com/svn
-
-
-
-2008-05-28T12:11:24.899066Z
-15
-commuterjoy
-
-
-svn:special svn:externals svn:needs-lock
-
-
-
-
-
-
-
-
-
-
-
-51a5d143-974d-0410-a137-0700518723e3
-
-test
-dir
-
-LICENSE
-file
-
-
-
-
-2010-12-20T12:27:23.000000Z
-e2f12c78a52d71908cc120a73c3e573a
-2008-05-19T15:59:42.749769Z
-3
-commuterjoy
-
-dictionary
-dir
-
-TODO
-file
-
-
-
-
-2010-12-20T12:27:23.000000Z
-42d8687665ddc2af3c58987ef3901858
-2008-05-20T21:45:32.630872Z
-7
-commuterjoy
-
-lib
-dir
-
-scripts
-dir
-
-js.jar
-file
-
-
-
-
-2010-12-20T12:27:23.000000Z
-4995caee1cf36af248f15df2b8ef4341
-2008-05-28T10:31:45.742368Z
-10
-commuterjoy
-has-props
-
-examples
-dir
-
