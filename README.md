@@ -16,7 +16,7 @@ Todo
 * Optimise the phoneme generation (esp. Caverphone) to sub-second build times.
 * Add support for more complex words case insensitivity, hyphenated, nouns etc.
 * Write some unit tests to see how the [aspell test results](http://aspell.net/test/cur/batch0.tab) compare.
-* IE9 benchmarks
+* IE9 benchmarks.
 
 Benchmarking
 ============
@@ -26,25 +26,24 @@ It's not ready for production use as in all but Chrome the dictionaries take too
 Chrome
 ------
 
-> 234936 words in the dictionary
-> soundex loaded in 2.075 seconds
-> metaphone loaded in 3.541 seconds
-> caverphone loaded in 6.535 seconds
+	234936 words in the dictionary
+	soundex loaded in 2.075 seconds
+	metaphone loaded in 3.541 seconds
+	caverphone loaded in 6.535 seconds
 
 Safari
 ------
 
-> 234936 words in the dictionary
-> soundex loaded in 4.05 seconds
-> metaphone loaded in 4.573 seconds
-> caverphone loaded in 8.616 seconds
+	234936 words in the dictionary
+	soundex loaded in 4.05 seconds
+	metaphone loaded in 4.573 seconds
+	caverphone loaded in 8.616 seconds
 
 Firefox
 -------
 
-> 234936 words in the dictionary
-> soundex loaded in 12.078 seconds
-> metaphone loaded in 11.622 seconds
-> caverphone loaded in 17.108 seconds
-
+	234936 words in the dictionary
+	soundex loaded in 12.078 seconds
+	metaphone loaded in 11.622 seconds
+	caverphone loaded in 17.108 seconds
 
