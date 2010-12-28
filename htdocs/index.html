@@ -1,0 +1,142 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">  
+  <title>Spell - Javascript Spell Checking</title> 
+  <link rel="stylesheet" type="text/css" media="screen" href="css/screen.css" > 
+</head>
+<body>
+	<h1>SpellCheck</h1>
+	<div id="app">
+		<p>
+			A 100% client-side spellchecker. 235k words.
+		</p>
+		<p>
+			Uses HTML5 <a href="http://www.whatwg.org/specs/web-workers/current-work/">Workers</a> to build three <a href="http://code.google.com/p/yeti-witch/">phoneme</a> dictionaries
+			on the client, each containing 235k words. It then applies some simple heuristics to the user input to find the nearest match. Below I've added a simple JQuery interface.
+		</p>
+		<p>
+			Hosted @ <a href="https://github.com/commuterjoy/spell">github.com/commuterjoy/spell</a>
+		</p>
+		<h2>Demo</h2>		
+		<p>
+			<strong>Please wait for the dictionaries to load before you try</strong>.
+		</p>
+		<p>
+			It takes ~4 seconds on Chrome, ~7 seconds on Safari, and ~12 seconds on Firefox.
+		</p>
+		<ul id="dictionaries">
+			<li id="wc-dict">dictionary loading...</li>
+			<li id="wc-soundex">soundex loading...</li>
+			<li id="wc-metaphone">metaphone loading...</li>
+			<li id="wc-caverphone">caverphone loading...</li>
+		</ul>
+		<p>
+			Type something, Eg. 'acoomodation'
+		</p>
+		<input id="spell" />
+		<ul id="matches"></ul>
+	</div>
+	
+	<!-- lib -->
+	<script src="lib/jquery-1.4.4.min.js" type="application/javascript"></script>
+	<script src="js/util.js" type="application/javascript"></script>
+
+	<!-- our dictionary -->
+	<script src="js/dict/words" type="application/javascript"></script>
+	
+	<!-- yeti-witch -->
+	<script src="lib/yeti-witch-0.1/lib/caverphone.js" type="application/javascript"></script>
+	<script src="lib/yeti-witch-0.1/lib/soundex-refined.js" type="application/javascript"></script>
+	<script src="lib/yeti-witch-0.1/lib/porter-stemmer.js" type="application/javascript"></script>
+	<script src="lib/yeti-witch-0.1/lib/levenshtein.js" type="application/javascript"></script>
+	<script src="lib/yeti-witch-0.1/lib/metaphone.js" type="application/javascript"></script>
+			
+	<!-- ui -->
+	<script type="application/javascript">
+		$(document).ready(function() {
+		
+			// summary
+			$('#wc-dict').html(dictionary.length + ' words in the dictionary');
+			$('#wc-dict').addClass('loaded');
+
+			// all workers can share the same start time
+			var workerTime = new Date();
+			
+			// caverphone
+		    var caverphoneWorker = new Worker("js/workers/caverphone.js");
+		    caverphoneWorker.onmessage = function(event) {
+				window.caverphone = event.data.split(',');
+				$('#wc-caverphone').addClass('loaded');
+				$('#wc-caverphone').html('caverphone loaded in ' + ((new Date() - workerTime)/1000) + ' seconds');
+		    };
+		    caverphoneWorker.postMessage(dictionary.toString());
+
+			// soundex
+		    var soundexWorker = new Worker("js/workers/soundexRefined.js");
+		    soundexWorker.onmessage = function(event) {
+				window.soundex = event.data.split(',');
+				$('#wc-soundex').addClass('loaded');
+				$('#wc-soundex').html('soundex loaded in ' + ((new Date() - workerTime)/1000) + ' seconds');
+		    };
+		    soundexWorker.postMessage(dictionary.toString());
+
+			// metaphone
+		    var metaphoneWorker = new Worker("js/workers/metaphone.js");
+		    metaphoneWorker.onmessage = function(event) {
+				window.metaphone = event.data.split(',');
+				$('#wc-metaphone').addClass('loaded');
+				$('#wc-metaphone').html('metaphone loaded in ' + ((new Date() - workerTime)/1000) + ' seconds');
+		    };
+		    metaphoneWorker.postMessage(dictionary.toString());
+
+			// user interface
+			$('#spell').keyup(function(event) {
+
+			  if (this.value.length < 1){
+			
+				// clean up ui
+				$(this).css('background-color', '#fff');
+				$('#matches').empty();
+				}					
+			
+			  else {
+				
+				// This is a first stab at an algorithm to guess the word from the current user input
+				
+				text = this.value;
+			
+				$('#matches').empty();					
+				
+				// our phoneme matches				
+				var w1 = spellAsCaverphone(text);
+				var w2 = spellAsSoundex((new String(text).porterStemmer()));
+				var w3 = spellAsMetaphone(text);
+
+				(isWord(text)) ? $(this).css('background-color', '#0f0') : $(this).css('background-color', '#f60');
+
+				// merge the dictionaries
+				words = [].concat(w1, w2, w3);
+				
+				// remove duplicates
+				$.unique(words);
+
+				// sort by levenstein
+				words.sort(function(a, b){
+					return (new String(text).levenshtein(new String(a))) < (new String(text).levenshtein(new String(b)));
+				});
+			
+				// remove all the words not starting with the initial letter
+				words = words.filter(function(element){
+					return text.charAt(0) === element.charAt(0);
+				})
+											
+				// render the first n results in lowest-levenshtein first
+				words.reverse().splice(0,50).forEach(function(element){
+					if (text.levenshtein(element) < 3) $('#matches').append('<li>' + element + '</li>');
+					});
+				}
+				
+			});
+		});
+	</script>
+</body>

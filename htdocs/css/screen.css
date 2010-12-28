@@ -1,0 +1,39 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.4em;
+    background: #eeeeee;
+    color: #111;
+	min-height: 110%;
+  }
+
+.loaded { color: green;}
+
+#dictionaries {
+list-style: none;	
+}
+ul { border-left: 1px solid #ccc; padding-left: 6;}
+#about{ }
+h1 { padding: 40px 0 0 0; margin: 0 auto 20px; width:580px; }
+#app {
+  width: 580px;
+  margin: 0 auto 40px;
+}
+
+ input {
+    width: 566px;
+    font-size: 24px;
+    font-family: inherit;
+    line-height: 1.4em;
+    border: 0;
+    outline: none;
+    padding: 6px;
+    border: 1px solid #999;
+    -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+    -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  }
+ #matches li { list-style: none; }
+ #matches li:hover { color: #f69; cursor: pointer; }
+ #matches { position: absolute; }

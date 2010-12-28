@@ -1,0 +1,6 @@
+
+ * Port the Double Metaphone algorithm from Apache
+ 	- ./trunk/src/java/org/apache/commons/codec/language/DoubleMetaphone.java
+ * Implement Reverse Soundex
+ * Nothing is hugely tuned for performance yet, especially the ported code
+ * http://www.mail-archive.com/commons-dev@jakarta.apache.org/msg31614.html

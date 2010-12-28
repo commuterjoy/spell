@@ -1,0 +1,5 @@
+# gzip and cache-control the dictionary file
+
+SetOutputFilter DEFLATE
+Header set Cache-Control "max-age=31556926, public
+
